@@ -12,9 +12,10 @@
 
   <div id="todo">
     <div class="container" >
-        <section class="panel">
+      <section class="panel">
         <p class="error" v-for="error in errorTodoText" :key="error.id">{{ error }}</p>
 
+        <!-- TODOの追加 -->
         <p>Todoの追加</p>
         <span include="form-input-select()">
           <select v-model="selectMemberId">
@@ -32,6 +33,7 @@
         <button class="addButton" @click="addTodo()">Todo追加</button>
       </section>
 
+      <!-- 担当者追加 -->
       <section class="panel">
         <p class="error" v-for="error in errorMemberText" :key="error.id">{{ error }}</p>
 
@@ -40,8 +42,9 @@
         <button class="addButton" @click="addMember()">担当者追加</button>
       </section>
 
+      <!-- TODOの検索 -->
       <section class="search-panel">
-        <p>Todoの検索</p>
+        <p>TODOの検索</p>
         <button @click="toggleAllStatus()">全選択／解除</button>
 
         <input type="checkbox" id="not-started" value="1" v-model="searchStatusIds">
@@ -60,6 +63,7 @@
         </select>
       </section>
 
+      <!-- TODOの表示 -->
       <section class="task-panel">
         <table v-if="">
           <tr>
