@@ -226,7 +226,7 @@
             id: lastTodoId + 1,
             title: this.inputTitle,
             text: this.inputText,
-            end_at: moment(this.inputDeadline).format("YYYY/MM/DD"),
+            end_at: this.formatDate(this.inputDeadline),
             status_id: 1,
             member_id: this.selectMemberId
           }
@@ -295,7 +295,7 @@
           targetTodo.title = this.inputEditTitle
           targetTodo.text = this.inputEditText
           targetTodo.status_id = this.selectStatusEditId
-          targetTodo.end_at = moment(this.editDeadline).format("YYYY/MM/DD")
+          targetTodo.end_at = this.formatDate(this.editDeadline)
 
           this.editMemberTodoId = ""
           this.$toasted.show('Todoを編集しました', this.success)
@@ -340,9 +340,14 @@
         clearEditDate() {
           this.editDeadline = ""
         },
-        // outsideClick() {
-        //   this.editMemberTodoId = ""
-        // },
+        formatDate(date) {
+          console.log(date)
+          if (date == "") {
+            return
+          }
+
+          return moment(date).format("YYYY/MM/DD")
+        },
         localeStatus(status) {
           switch (status) {
             case "notStarted":
