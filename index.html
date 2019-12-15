@@ -27,8 +27,8 @@
         <input type="text" class="text-input" placeholder="タイトル" v-model="inputTitle">
         <input type="text" class="text-input" placeholder="内容" v-model="inputText">
 
-        <span @click="setDefaultDate()"><vuejs-datepicker v-model="inputDeadline" :disabled-dates="disabledDates" :language="ja" format="yyyy-MM-dd" wrapper-class="calendar" placeholder="期限"></vuejs-datepicker></span>
-        <span><button class="clearButton" @click="clearDate()">クリア</button></span>
+        <span @click="setDefaultDate()"><vuejs-datepicker v-model="inputDeadline" :disabled-dates="disabledDates" :language="ja" format="yyyy/MM/dd" wrapper-class="calendar" placeholder="期限"></vuejs-datepicker></span>
+        <span><button class="clearButton" @click="clearInputDate()">クリア</button></span>
 
         <button class="addButton" @click="addTodo()">Todo追加</button>
       </section>
@@ -99,7 +99,8 @@
               </select>
             </td>
             <td class="deadline">
-              <vuejs-datepicker v-model="editDeadline" :language="ja" format="yyyy-MM-dd" wrapper-class="calendar" placeholder="期限"></vuejs-datepicker>
+              <vuejs-datepicker v-model="editDeadline" :disabled-dates="disabledDates" :language="ja" format="yyyy-MM-dd" wrapper-class="calendar" placeholder="期限"></vuejs-datepicker>
+              <span><button class="clearButton" @click="clearEditDate()">クリア</button></span>
             </td>
             <td class="button">
               <span class="btn-todo" @click="editTodoCompleted(memberTodo)">編集完了</span>
@@ -225,6 +226,7 @@
             id: lastTodoId + 1,
             title: this.inputTitle,
             text: this.inputText,
+            end_at: moment(this.inputDeadline).format("YYYY/MM/DD"),
             status_id: 1,
             member_id: this.selectMemberId
           }
@@ -280,6 +282,7 @@
           this.inputEditTitle = todo.title
           this.inputEditText = todo.text
           this.selectStatusEditId = todo.status_id
+          this.editDeadline = todo.end_at
 
           this.editMemberTodoId = this.memberTodos.find(memberTodo => memberTodo.id == todo.id).id
         },
@@ -292,6 +295,7 @@
           targetTodo.title = this.inputEditTitle
           targetTodo.text = this.inputEditText
           targetTodo.status_id = this.selectStatusEditId
+          targetTodo.end_at = moment(this.editDeadline).format("YYYY/MM/DD")
 
           this.editMemberTodoId = ""
           this.$toasted.show('Todoを編集しました', this.success)
@@ -330,8 +334,11 @@
 
           this.inputDeadline = moment().format("YYYY/MM/DD")
         },
-        clearDate() {
+        clearInputDate() {
           this.inputDeadline = ""
+        },
+        clearEditDate() {
+          this.editDeadline = ""
         },
         // outsideClick() {
         //   this.editMemberTodoId = ""
